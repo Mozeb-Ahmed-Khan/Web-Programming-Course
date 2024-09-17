@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-git.js"></script>
+    <style>
+         #animatedDiv {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        position: absolute;
+        top: 40%;
+        left: 0;
+    }
+    </style>
+</head>
+<body>
+    <div id="animatedDiv">HELLO</div>
+    <script>
+        $(document).ready(function(){
+            var duration = 8000; 
+            var finalPosition = $(window).width() - $("#animatedDiv").width();
+                $("#animatedDiv").animate({left: finalPosition}, duration);
+                $("#animatedDiv").animate({fontSize: '20px'}, duration);
+        });
+    </script>
+</body>
+</html>

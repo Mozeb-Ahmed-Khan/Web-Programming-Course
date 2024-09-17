@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <table id="table1" border="1">
+        <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Course Instructor</th>
+        </tr>
+        <tr>
+            <td>CS4032</td>
+            <td>Web Programming</td>
+            <td>Sumaira Mustafa</td>
+        </tr>
+        <tr>
+            <td>AI2002</td>
+            <td>Artificial Intelligence</td>
+            <td>Mahzaib Younas</td>
+        </tr>
+        <tr>
+            <td>CS4038</td>
+            <td>Data Mining</td>
+            <td>Ayesha Liaqat</td>
+        </tr>
+        <tr>
+            <td>CS4044</td>
+            <td>Fundamentals of Software Project Management</td>
+            <td>Saba Naseem</td>
+        </tr>
+        <tr>
+            <td>CS4046</td>
+            <td>Game Design and Development</td>
+            <td>Saba Ghani</td>
+        </tr>
+    </table>
+    <br>
+    <button id="btn1">Remove Row</button>
+    <script>
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                $("#table1 tr:last").remove();
+            });    
+        });
+    </script>
+</body>
+</html>

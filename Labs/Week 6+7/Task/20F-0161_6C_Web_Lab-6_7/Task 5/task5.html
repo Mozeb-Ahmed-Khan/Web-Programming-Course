@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <div>
+        <h1 class="Large-Heading" id="h1">Heading 1</h1>
+        <h2 class="Large-Heading" id="h2">Heading 2</h2>
+        <h3 class="Large-Heading" id="h3">Heading 3</h3>
+    </div>
+
+    <div>
+        <h4 class="Small-Heading" id="h4">Heading 4</h4>
+        <h5 class="Small-Heading" id="h5">Heading 5</h5>
+        <h6 class="Small-Heading" id="h6">Heading 6</h6>
+    </div>
+
+    <p id="demo"></p>
+    <script>
+        $(document).ready(function(){
+            $(".Large-Heading").click(function(){
+                let Class = $(this).attr("class"); 
+                var Id = $(this).attr("id"); 
+                text = "<b> Class: </b>" + Class + "<br>" + "<b> ID: </b>" + Id; 
+                document.getElementById("demo").innerHTML = text;
+            });
+        });
+        $(document).ready(function(){
+            $(".Small-Heading").click(function(){
+                let Class = $(this).attr("class"); 
+                var Id = $(this).attr("id"); 
+                text = "<b> Class: </b>" + Class + "<br>" + "<b> ID: </b>" + Id; 
+                document.getElementById("demo").innerHTML = text;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        img {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <img id="img1" src="https://www.gstatic.com/classroom/logo_square_rounded.svg" alt="Image">
+    <button id="btn1">Show Image</button>
+    <script>
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                $("#img1").toggle(); 
+                var buttonText = $(this).text();
+                if (buttonText === "Show Image") {
+                    $(this).text("Hide Image");
+                }
+                else
+                {
+                    $(this).text("Show Image");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
