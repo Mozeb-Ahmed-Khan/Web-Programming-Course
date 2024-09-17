@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function validateForm() {
+  let x = document.forms["myForm"]["fname"].value;
+  if (x == "" || !isNaN()) {
+    alert("Name must be filled out");
+    return false;
+  }
+}
+</script>
+</head>
+<body>
+
+<h2>JavaScript Validation</h2>
+<!-- clinet side: Method 1: Use JS Code to validate the input value
+Method 2: Use Automatic method by using required keyword-->
+<form name="myForm" action="#" onsubmit="return validateForm()" method="post">
+  Name: <input type="text" name="fname" minlength="4" maxlength="8" required>
+  Password:  <input type="number" name="pwd" min="4" max="8" required>
+  <input type="submit" value="Submit" >
+</form>
+
+</body>
+</html>
