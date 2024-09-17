@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .game {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .hand-image {
+            height: 50px;
+            vertical-align: middle;
+            margin-bottom: 10px;
+        }
+
+        .lets-play {
+            font-size: 30px;
+            color: #b67eceb7;
+            margin-bottom: 10px;
+        }
+
+        .scoreboard {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .choices button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            color: #b67eceb7;
+        }
+
+        .choices button img {
+            height: 40px;
+        }
+
+        .choices button span {
+            display: block;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="game">
+        <h1>
+            <img src="https://thumb.ac-illust.com/ec/ec716040becb3e31d3f0f463a649050d_t.jpeg" alt="Rock" class="hand-image">Rock Paper Scissors
+            <img src="https://thumb.ac-illust.com/ec/ec716040becb3e31d3f0f463a649050d_t.jpeg" alt="Scissors" class="hand-image">
+        </h1>
+        <div class="scoreboard">
+            <p>Player: <span id="player-score">0</span></p>
+            <p class="lets-play">Let's Play!!</p>
+            <p>Computer: <span id="computer-score">0</span></p>
+        </div>
+        <div class="choices">
+            <button class="choice" data-choice="rock" aria-label="Rock">
+                <img src="https://www.vhv.rs/dpng/d/202-2025619_rock-paper-scissors-png-transparent-png.png" alt="Rock" class="hand-image">
+                <br><br>Rock
+            </button>
+            <button class="choice" data-choice="paper" aria-label="Paper">
+                <img src="https://www.vhv.rs/dpng/d/165-1650091_transparent-rock-paper-scissors-png-rock-paper-scissors.png" alt="Paper" class="hand-image">
+                <br><br>Paper
+            </button>
+            <button class="choice" data-choice="scissors" aria-label="Scissors">
+                <img src="https://image.pngaaa.com/787/3313787-middle.png" alt="Scissors" class="hand-image">
+                <br><br>Scissors
+            </button>
+        </div>
+        <div class="result">
+            <p id="result-text">Make your choice!</p>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            let playerScore = 0;
+            let computerScore = 0;
+
+            $('.choice').click(function () {
+                const playerChoice = $(this).data('choice');
+                const computerChoice = generateComputerChoice();
+                const result = getRoundResult(playerChoice, computerChoice);
+                updateScore(result);
+                displayResult(result, playerChoice, computerChoice);
+            });
+
+            function generateComputerChoice() {
+                const choices = ['rock', 'paper', 'scissors'];
+                const randomIndex = Math.floor(Math.random() * choices.length);
+                return choices[randomIndex];
+            }
+
+            function getRoundResult(playerChoice, computerChoice) {
+                if (!playerChoice || !computerChoice) {
+                    return null;
+                }
+
+                if (playerChoice === computerChoice) {
+                    return 'draw';
+                } else if (
+                    (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                    (playerChoice === 'paper' && computerChoice === 'rock') ||
+                    (playerChoice === 'scissors' && computerChoice === 'paper')
+                ) {
+                    return 'player';
+                } else {
+                    return 'computer';
+                }
+            }
+
+            function updateScore(result) {
+                if (result === 'player') {
+                    playerScore++;
+                } else if (result === 'computer') {
+                    computerScore++;
+                }
+                $('#player-score').text(playerScore);
+                $('#computer-score').text(computerScore);
+            }
+
+            function displayResult(result, playerChoice, computerChoice) {
+                const resultText = $('#result-text');
+                if (result === 'draw') {
+                    resultText.text('It\'s a draw! You both chose ' + playerChoice + '.');
+                } else if (result === 'player') {
+                    resultText.text('You win! ' + playerChoice + ' beats ' + computerChoice + '.');
+                } else {
+                    resultText.text('Computer wins! ' + computerChoice + ' beats ' + playerChoice + '.');
+                }
+            }
+            document.getElementById('player-score').style.fontWeight = 'bold';
+            document.getElementById('computer-score').style.fontWeight = 'bold';
+        });
+    </script>
+
+</body>
+</html>

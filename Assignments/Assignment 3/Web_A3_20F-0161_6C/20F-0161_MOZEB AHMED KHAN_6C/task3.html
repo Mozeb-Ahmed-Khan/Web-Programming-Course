@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .clock {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: #ecf0f1;
+            font-size: 2rem;
+            width: 100%;
+            justify-content: space-between;
+            text-align: center; 
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: calc(25% - 15px);
+            height: 320px;
+            margin: 0 15px;
+        }
+
+        .time-box div {
+            width: 100%;
+        }
+
+        .hours .op {
+            background-color: #2980b9;
+            height: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+        }
+
+        .hours .bottom {
+            background-color: #3498db;
+            height: 75%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 200px;
+        }
+
+        .minutes .op {
+            background-color: #7eb70d;
+            height: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+        }
+
+        .minutes .bottom {
+            background-color: #a2eb0f;
+            height: 75%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 200px;
+        }
+
+        .seconds .op {
+            background-color: #bc5021;
+            height: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+        }
+
+        .seconds .bottom {
+            background-color: #f6682b;
+            height: 75%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 200px;
+        }
+
+        .period .op {
+            background-color: #309467;
+            height: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+        }
+
+        .period .bottom {
+            background-color: #3ab37d;
+            height: 75%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock">
+        <h1 style="color: black;font-weight: lighter;font-family: Arial, Helvetica, sans-serif;font-size: 65px;margin: 0 auto;">THIS IS THE CURRENT TIME.</h1>
+    </div>
+    <br><br><br>
+    <div class="clock">
+        <div class="time-box hours">
+            <div class="op"><span id="hours-text">HOURS</span></div>
+            <div class="bottom" id="hours-value"></div>
+        </div>
+        <div class="time-box minutes">
+            <div class="op"><span>MINUTE</span></div>
+            <div class="bottom" id="minutes-value"></div>
+        </div>
+        <div class="time-box seconds">
+            <div class="op"><span>SECOND</span></div>
+            <div class="bottom" id="seconds-value"></div>
+        </div>
+        <div class="time-box period">
+            <div class="op"><span>PERIOD</span></div>
+            <div class="bottom" id="period-value"></div>
+        </div>
+    </div>
+    <script>
+        function updateClock() {
+            let now = new Date();
+            let hours = now.getHours().toString().padStart(2, "0");
+            let minutes = now.getMinutes().toString().padStart(2, "0");
+            let seconds = now.getSeconds().toString().padStart(2,"0");
+            let period = "AM";
+
+            if (hours > 11) {
+                period = "PM";
+                hours = (hours % 12) || 12;
+            }
+
+            $("#hours-value").text(hours);
+            $("#minutes-value").text(minutes);
+            $("#seconds-value").text(seconds);
+            $("#period-value").text(period);
+        }
+
+        $(document).ready(function () {
+           updateClock();
+            setInterval(updateClock, 1000);
+        });
+    </script>
+</body>
+</html>

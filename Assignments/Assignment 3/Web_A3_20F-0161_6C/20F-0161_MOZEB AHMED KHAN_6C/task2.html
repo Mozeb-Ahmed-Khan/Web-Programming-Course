@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #3498db;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+        }
+
+        .form-heading {
+            text-align: left;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        .form-divider {
+            border-top: 1px solid #3498db;
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .or-text {
+            color: #888;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-button {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            width: calc(100% - 40px);
+            margin-bottom: 20px;
+        }
+
+        .weather-container {
+            background-color: #ffffff;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .weather-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            color: black;
+        }
+
+        .back-arrow {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            cursor: pointer;
+        }
+
+        .weather-divider {
+            border-top: 1px solid #3498db;
+            margin-bottom: 20px;
+        }
+
+        .weather-image {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .weather-temp {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: black;
+        }
+
+        .weather-text-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .weather-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: black;
+        }
+
+        .line-separator {
+            border-top: 1px solid #3498db;
+            margin-bottom: 20px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+
+            .form-input, .form-button {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-heading">Weather Application</div>
+        <div class="form-divider"></div>
+        <form id="weatherForm">
+            <input type="text" id="cityInput" class="form-input" placeholder="Enter city name">
+            <div class="or-text">----------------------------------------------------------or----------------------------------------------------------</div>
+            <button type="button" id="locationBtn" class="form-button">Get Device Location</button>
+        </form>
+    </div>
+
+    <div class="weather-container" id="weatherContainer" style="display: none;">
+        <div class="weather-header">
+            <div class="back-arrow">&#8592;</div>
+            <span id="weatherCity"></span> Weather Application
+        </div>
+        <div class="weather-divider"></div>
+        <img src="" alt="Weather Icon" class="weather-image" id="weatherIcon">
+        <div class="weather-temp" id="weatherTemp"></div>
+        <div class="weather-text" id="weatherDescription"></div>
+        <div class="weather-text" id="weatherSmoke"></div>
+        <div class="weather-text">Location: <span id="weatherLocation"></span></div>
+        <div class="line-separator"></div>
+        <div class="weather-text-container">
+            <div class="weather-text">Feels like: <span id="weatherFeelsLike"></span></div>
+            <div class="weather-text">Humidity: <span id="weatherHumidity"></span></div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#cityInput').on('change', function() {
+                var city = $(this).val();
+                if(city !== '') {
+                    getWeatherData(city);
+                }
+            });
+
+            $('#locationBtn').on('click', function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            });
+
+            $('.back-arrow').on('click', function() {
+                $('#weatherContainer').hide();
+            });
+        });
+
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            var apiKey = '4cad6af14b6503c00b91a5df6f85eff9';
+            var apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function(response) {
+                    console.log('Response:', response);
+                    if(response && response.main && response.main.temp && response.main.humidity && response.wind && response.wind.speed) {
+                        updateWeatherDisplay(response);
+                    } else {
+                        console.log('Invalid data received');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function getWeatherData(city) {
+            var apiKey = '4cad6af14b6503c00b91a5df6f85eff9';
+            var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function(response) {
+                    console.log('Response:', response);
+                    if(response && response.main && response.main.temp && response.main.humidity && response.wind && response.wind.speed) {
+                        updateWeatherDisplay(response);
+                    } else {
+                        console.log('Invalid data received');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        }
+
+        function updateWeatherDisplay(data) {
+            var temperature = data.main.temp;
+            var description = data.weather[0].description;
+            var icon = data.weather[0].icon;
+            var location = data.name;
+            var feelsLike = data.main.feels_like;
+            var humidity = data.main.humidity;
+
+            $('#weatherCity').text(location);
+            $('#weatherIcon').attr('src', `http://openweathermap.org/img/w/${icon}.png`);
+            $('#weatherTemp').text(`${temperature}°C`);
+            $('#weatherDescription').text(description);
+            $('#weatherFeelsLike').text(`${feelsLike}°C`);
+            $('#weatherHumidity').text(`${humidity}%`);
+            $('#weatherLocation').text(`${location}`);
+
+            $('#weatherContainer').show();
+        }
+    </script>
+</body>
+</html>
